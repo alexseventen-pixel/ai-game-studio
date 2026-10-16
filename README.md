@@ -35,6 +35,13 @@ Lesson 1 menus and prompts: app.js
 Lessons 2–4 menus, fields and prompts: course.js
 Layout: style.css
 
+## Image handling and Qwen
+
+Image links are never fetched or checked over the network by the builder. Copying does not depend on an image loading. Local URL warnings are informational only. Empty required fields still need completing.
+The builder trims outer whitespace, removes invisible copy artifacts and line breaks, extracts image URLs from HTML/BBCode, and preserves URL capitalization and signed query strings.
+Use the shared upload instructions to obtain direct links. Keep original image size when hosting. The generated web prompts require original artwork, exact URLs, natural proportions, large image panels, and an explicit error instead of invented replacement art.
+Enable Thinking and Web Dev in Qwen when those modes are available.
+
 ## Verification
 
-JavaScript syntax checks passed. Automated checks verified 18 main prompts, optional follow-ups, hero carry-over, Custom effects, required fields and URL scheme validation. Browser verification of Lessons 2–4 was unavailable because this environment blocked navigation to the local files. Test all four pages after hosting.
+JavaScript syntax and automated regression checks passed: copying is not blocked by unreachable image URLs or viewing-page warnings; no image probes run; URL signatures are preserved; copy success and fallback provide button feedback; 18 course prompts and the shared hero data still work. The resulting Qwen-generated pages and their visual appearance require testing in Qwen.
