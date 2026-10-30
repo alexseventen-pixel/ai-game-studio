@@ -3,3 +3,5 @@
 .courseNav{margin:0;border-radius:0;gap:7px}.courseNav a:focus-visible{outline:3px solid #738741;outline-offset:2px}
 
 button:active:not(:disabled){transform:translateY(2px) scale(.97)}button.copied{background:#d6ee9b!important;color:#26331d!important;border-color:#9bb66a!important;box-shadow:0 0 0 4px #d6ee9b50}button.is-copying{opacity:.7}.asset-help ol{padding-left:20px;margin:10px 0}.asset-help li{margin:7px 0}.asset-help a,.note a{color:#3b5c24;text-underline-offset:3px}
+
+.img-preview{font-size:12px;margin-top:4px}.img-preview .ok{color:#3ddc84}.img-preview .bad{color:#ff6b6b}
