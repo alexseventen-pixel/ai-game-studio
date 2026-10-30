@@ -41,3 +41,6 @@ async function copyWithFeedback(button,textarea,onMessage){
  if(!copied){textarea.focus();textarea.select()}
  setTimeout(()=>{if(button.isConnected){button.textContent=original;button.classList.remove('copied')}},2200);
 }
+
+const MODE_TEXT={text:['💬','Regular chat — turn OFF Web Dev (text only)'],image:['🎨','Image generation — turn OFF Web Dev'],video:['🎬','Video generation (image-to-video) — turn OFF Web Dev'],web:['🌐','Turn ON Web Dev in Qwen']};
+function modeBadge(tool){const m=MODE_TEXT[tool]||MODE_TEXT.text;return `<div class="mode-badge mode-${tool in MODE_TEXT?tool:'text'}" role="note"><span class="mode-icon">${m[0]}</span><span><small>MODE</small><strong>${m[1]}</strong></span></div>`}
