@@ -16,15 +16,9 @@ function isDirectImageURL(raw){let u;try{u=new URL(cleanImageURL(raw))}catch{ret
  return /\.(png|jpe?g|webp|gif)$/i.test(u.pathname);
 }
 const DIRECT_HINT='Not a direct image link. imgbb → Embed codes → Direct links (starts with https://i.ibb.co/ and ends with .png/.jpg).';
-function imageLinkWarning(raw){const text=cleanImageURL(raw);if(!text)return '';return isDirectImageURL(text)?'':DIRECT_HINT}
-// Live preview: the student's own browser loads the picture; nothing is sent anywhere else.
-function livePreview(input,url){try{livePreview_(input,url)}catch(e){}}
-function livePreview_(input,url){const box=input.closest('.field,.wide')||input.parentElement;let p=box.querySelector('.img-preview');if(!p){p=document.createElement('div');p.className='img-preview';p.setAttribute('role','status');box.appendChild(p)}
- p.innerHTML='';const clean=cleanImageURL(url);if(!clean)return;
- if(!isDirectImageURL(clean)){p.innerHTML='<span class="bad">✗ '+DIRECT_HINT+'</span>';return}
- const img=new Image();img.referrerPolicy='no-referrer';img.alt='preview';img.style.cssText='max-height:90px;max-width:140px;border-radius:8px;display:block;margin-top:6px';
- const s=document.createElement('span');s.textContent='Loading preview…';p.append(s,img);
- img.onload=()=>{s.className='ok';s.textContent='✓ Image loads'};img.onerror=()=>{img.remove();s.className='bad';s.textContent='✗ Image failed to load. Copy the Direct link again.'};img.src=clean}
+function imageLinkWarning(raw){const text=cleanImageURL(raw);if(!text)return '';return ''}
+// No link validation or image probing (removed: glitchy). URLs are only cleaned silently.
+function livePreview(){}
 const IMAGE_RULES=`\n\n[IMAGES — USE EXACTLY]\nUse the exact image URLs above as src of real <img> elements. Do not change the URLs. Never draw, generate or substitute characters or artwork of your own. If an image fails to load, show a clear "Image failed to load" placeholder in its place.\n`;
 const ENHANCE_RULES=`\n[ART ENHANCEMENT — ALLOWED]\nThe uploaded image is the centerpiece and must stay fully visible and recognizable; never replace it. You MAY enhance around and over it with CSS/SVG/canvas effects: animated frame, glowing aura, element-themed particles, a background scene in the same art style, light rays and sparks.\n`;
 const SHORT_A11Y='Responsive, no horizontal overflow on phones, alt text on images.';
