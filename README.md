@@ -61,4 +61,4 @@ Guide screenshots live in `guides/` (hover or tap to enlarge). Image URL fields 
 - Lesson 3 (5): Define fight → Prepare arena (required) → Build game → Playtest/optional fixes → Publish
 - Lesson 4 (5): Release brief → Cover + trailer → Release page (one paste box) → Trailer QA → Pitch
 
-Art style from Lesson 1 always syncs into Lessons 2-4. Bug hunting in Lesson 3 is fully optional. Vidu opens https://www.vidu.com.
+Art style from Lesson 1 always syncs into Lessons 2-4. Bug hunting in Lesson 3 is fully optional. Vidu opens https://www.vidu.com. Lesson 4 premiere uses Canva (Gemini Canvas backup) for a screenshot pitch deck.
