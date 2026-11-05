@@ -1,7 +1,7 @@
 'use strict';
 const KEY='hero-lab-v1';
 const menus={
-weapon:['Sword','Twin swords','Greatsword','Energy sword','Crystal sword','Flame sword','Ice blade','Katana','Dagger','Twin daggers','Spear','Trident','Halberd','Battle axe','Twin axes','War hammer','Rocket hammer','Mace','Flail','Scythe','Boomerang','Chakram','Shuriken','Bow','Crossbow','Energy bow','Laser blaster','Plasma cannon','Bubble blaster','Water cannon','Snowball launcher','Paint blaster','Sonic blaster','Gravity gun','Grappling hook','Magic staff','Crystal staff','Fire staff','Ice staff','Lightning staff','Nature staff','Shadow staff','Magic wand','Spellbook','Magic orb','Floating crystals','Enchanted lantern','Magic cards','Rune stones','Shield','Energy shield','Mirror shield','Armored gauntlets','Power gloves','Energy claws','Mechanical fists','Wrench','Giant wrench','Multitool','Repair hammer','Magnetic tool','Portal device','Gravity device','Hologram projector','Healing device','Potion belt','Jetpack','Hoverboard','Rocket boots','Mechanical wings','Robot companion','Scout drone','Drone swarm','Mini turret','Mechanical spider','Energy whip','Vine whip','Magic umbrella','Enchanted flute','Electric guitar','Sonic microphone','Battle fan','Magic brush','Yo-yo','Fishing rod','Lasso','Net launcher','Magnet','Crystal compass','Totem','Floating runes','Elemental fists','No weapon  - uses abilities'],
+weapon:['Sword','Twin swords','Greatsword','Energy sword','Crystal sword','Flame sword','Ice blade','Katana','Dagger','Twin daggers','Spear','Trident','Halberd','Battle axe','Twin axes','War hammer','Rocket hammer','Mace','Flail','Scythe','Boomerang','Chakram','Shuriken','Bow','Crossbow','Energy bow','Laser blaster','Plasma cannon','Bubble blaster','Water cannon','Snowball launcher','Paint blaster','Sonic blaster','Gravity gun','Grappling hook','Magic staff','Crystal staff','Fire staff','Ice staff','Lightning staff','Nature staff','Shadow staff','Magic wand','Spellbook','Magic orb','Floating crystals','Enchanted lantern','Magic cards','Rune stones','Shield','Energy shield','Mirror shield','Armored gauntlets','Power gloves','Energy claws','Mechanical fists','Wrench','Giant wrench','Multitool','Repair hammer','Magnetic tool','Portal device','Gravity device','Hologram projector','Healing device','Potion belt','Jetpack','Hoverboard','Rocket boots','Mechanical wings','Robot companion','Scout drone','Drone swarm','Mini turret','Mechanical spider','Energy whip','Vine whip','Magic umbrella','Enchanted flute','Electric guitar','Sonic microphone','Battle fan','Magic brush','Yo-yo','Fishing rod','Lasso','Net launcher','Magnet','Crystal compass','Totem','Floating runes','Elemental fists','No weapon - uses abilities'],
 style:[['Game cartoon','bold mobile game cartoon, thick outlines, vivid colors'],['3D animation','cute 3D animated render, soft lighting, volumetric'],['Anime','anime style, cel shading, expressive eyes'],['Pixel art','16-bit pixel art sprite, crisp pixels'],['Comic book','comic book style, bold ink outlines, halftone dots'],['Chibi','chibi, super-deformed, big head, cute'],['Cyberpunk','cyberpunk, neon glow, dark background'],['Steampunk','steampunk, brass, gears, leather'],['Fantasy art','painterly fantasy concept art'],['Low poly','low poly 3D, geometric, faceted'],['Flat cartoon','flat 2D cartoon, simple shapes, flat colors'],['Hero shooter CGI','semi-realistic hero shooter render'],['Dark fantasy','dark gothic fantasy, moody'],['Sci-fi robot','sci-fi mecha, metallic techno suit'],['Watercolor','watercolor illustration, soft washes'],['Graffiti','street graffiti spray art'],['Retro 80s','retro 80s synthwave, pink-purple neon'],['Vinyl toy','vinyl collectible toy figure, glossy'],['Clay','claymation, clay figure'],['Papercraft','papercraft cutout, layered paper'],['Classic animation','classic hand-drawn animation'],['Black-and-white manga','black and white manga, screentones'],['Dark warrior','gritty dark game art'],['Cosmic','cosmic hero, stars, nebula, glow'],['Crystal','crystal / ice translucent'],['Fire spirit','flame elemental, glowing embers'],['Forest spirit','nature spirit, leaves and vines'],['Stained glass','stained glass mosaic'],['Hologram','holographic glitch, translucent'],['Toy bricks','blocky brick figure, toy bricks']],
 color:['Red','Blue','Green','Purple','Gold','Icy blue','Orange','Pink','Black & silver','Toxic green','White & silver','Red-orange'],
 element:['Fire','Ice','Lightning','Nature','Shadow / smoke','Light','Water','Metal / tech','Cosmic','Poison','Wind','Crystals'],
@@ -20,38 +20,170 @@ description:['Launches a focused burst of elemental energy','Creates a protectiv
 for(const [key,options] of Object.entries(extraChoices))menus[key]=[...(menus[key]||[]),...options];
 menus.style.push(...[
 ['Celestial ink','celestial ink illustration, deep blue washes, luminous gold linework'],['Retro space comic','retro space comic, vivid flat colors, screenprint texture'],['Soft pastel 3D','soft pastel 3D character, matte materials, gentle studio lighting'],['Wooden toy','carved wooden toy character, painted surfaces, visible wood grain'],['Embroidered patch','embroidered character patch, visible stitching, bold silhouette'],['Neon vector','neon vector illustration, crisp shapes, glowing edges'],['Storybook gouache','storybook gouache painting, rich pigment, textured brushwork'],['Clay and crystal','handcrafted clay character with translucent crystal details'],['Retro handheld','limited-palette retro handheld pixel art, clean readable sprite'],['Paper sculpture','sculpted paper character, folded surfaces, soft cast shadows'],['Art deco hero','art deco character design, geometric ornament, gold accents'],['Risograph','risograph print illustration, layered inks, grain texture'],['Porcelain figure','painted porcelain character figure, glossy ceramic finish'],['Felt plush','felt plush character, soft fibers, stitched details'],['Digital mosaic','digital mosaic character, angular colored tiles, clear silhouette'],['Bioluminescent fantasy','bioluminescent fantasy character, organic shapes, glowing details'],['Space explorer toy','retro space explorer collectible, rounded forms, painted plastic'],['Monochrome etching','monochrome etched illustration, fine crosshatching, bold silhouette']]);
-const steps=['Define your hero','Common hero','Epic upgrade','Legendary upgrade','Build the hero card'];
-let data={},step=0;try{const saved=JSON.parse(localStorage.getItem(KEY)||'{}');data=saved.data||{};step=Math.max(0,Math.min(4,Number(saved.step)||0))}catch{}
+
+const steps=['Design your hero','Make hero images','Build the hero card'];
+let data={},step=0;
+try{
+  const saved=JSON.parse(localStorage.getItem(KEY)||'{}');
+  data=saved.data||{};
+  const raw=Math.max(0,Number(saved.step)||0);
+  // migrate old 5-step indices -> 3-step
+  step = raw<=0 ? 0 : raw<=3 ? 1 : 2;
+}catch{}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const value=k=>IMAGE_KEYS.has(k)?cleanImageURL(data[k]):data[k]==='__custom'?String(data[k+'_custom']||'').trim():String(data[k]||'').trim();
 const labels={name:'Hero name',style:'Art style',color:'Main color',element:'Element',class:'Class',weapon:'Weapon or tool',ability:'Special ability',personality:'Personality',common:'Common image URL',epic:'Epic image URL',legendary:'Legendary image URL',description:'Ability description',slogan:'Studio slogan',strength:'Strength',health:'Health',speed:'Speed'};
 function field(k,type='text',wide=false){return `<label class="field ${wide?'wide':''}" for="${k}">${labels[k]}<input id="${k}" data-key="${k}" type="${type}" value="${esc(data[k])}" ${type==='url'?'inputmode="url"':''} maxlength="2000" autocomplete="off"></label>`}
-function menu(k){if(data[k]&&data[k]!=='__custom'&&!menus[k].some(o=>(Array.isArray(o)?o[1]:o.toLowerCase())===data[k])){data[k+'_custom']=data[k];data[k]='__custom'}return `<div class="field"><label for="${k}">${labels[k]}</label><select id="${k}" data-key="${k}"><option value="">Choose ${labels[k].toLowerCase()}</option>${menus[k].map(o=>{const [label,v]=Array.isArray(o)?o:[o,o.toLowerCase()];return `<option value="${esc(v)}" ${data[k]===v?'selected':''}>${esc(label)}</option>`}).join('')}<option value="__custom" ${data[k]==='__custom'?'selected':''}>Custom  - write your own</option></select><input aria-label="Custom ${labels[k].toLowerCase()}" data-key="${k}_custom" class="custom" value="${esc(data[k+'_custom'])}" maxlength="1000" ${data[k]==='__custom'?'':'hidden'}></div>`}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({data,step}));$('saveState').textContent='Saved on this device'}catch{$('saveState').textContent='Storage unavailable  - export your project'}}
+function menu(k){if(data[k]&&data[k]!=='__custom'&&!menus[k].some(o=>(Array.isArray(o)?o[1]:o.toLowerCase())===data[k])){data[k+'_custom']=data[k];data[k]='__custom'}return `<div class="field"><label for="${k}">${labels[k]}</label><select id="${k}" data-key="${k}"><option value="">Choose ${labels[k].toLowerCase()}</option>${menus[k].map(o=>{const [label,v]=Array.isArray(o)?o:[o,o.toLowerCase()];return `<option value="${esc(v)}" ${data[k]===v?'selected':''}>${esc(label)}</option>`}).join('')}<option value="__custom" ${data[k]==='__custom'?'selected':''}>Custom - write your own</option></select><input aria-label="Custom ${labels[k].toLowerCase()}" data-key="${k}_custom" class="custom" value="${esc(data[k+'_custom'])}" maxlength="1000" ${data[k]==='__custom'?'':'hidden'}></div>`}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({data,step}));$('saveState').textContent='Saved on this device'}catch{$('saveState').textContent='Storage unavailable - export your project'}}
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.remove('show'),3000)}
-function missing(){let keys=step===1?['name','style','color','element','class','weapon','ability','personality']:step===4?['name','class','ability','common','epic','legendary','description','slogan']:[];return keys.filter(k=>!value(k)).map(k=>labels[k])}
+function designMissing(){return ['name','style','color','element','class','weapon','ability','personality'].filter(k=>!value(k)).map(k=>labels[k])}
+function cardMissing(){return ['name','class','ability','common','epic','legendary','description','slogan'].filter(k=>!value(k)).map(k=>labels[k])}
+function missing(){return step===1?designMissing():step===2?cardMissing():[]}
 
-function buildPrompt(){const v=value;if(step===1)return `[1. SKELETON  - DO NOT CHANGE]\nA single game hero, full body, dynamic pose, facing the camera.\nCharacter large and centered, clean solid-color background.\nOnly ONE character, positive and friendly.\nNo text, no letters, no logos, no watermark.\nOriginal design  - do not copy heroes from existing games.\n\n[2. STYLE & THEME]\nStyle: ${v('style')}\nMain color: ${v('color')}\nElement/theme: ${v('element')}\n\n[3. MY HERO]\nName: ${v('name')}\nClass: ${v('class')}\nWeapon/tool: ${v('weapon')}\nAbility: ${v('ability')}\nPersonality: ${v('personality')}\n\n[4. RARITY]\nThis is the COMMON rarity version:\nsimple clothes/armor, modest details, calm lighting.`;
-if(step===2)return `Take the SAME hero from the previous image.\nKeep the art STYLE, face, body, class, weapon and pose  - it is the same character.\nMake the EPIC rarity version:\n - upgraded armor with a purple glow,\n - magical particles and energy around,\n - more dramatic lighting,\n - purple / violet color scheme.\nOne character, same hero, no text, no watermark.`;
-if(step===3)return `Take the SAME hero from the previous images.\nKeep the art STYLE, face, body, class, weapon and pose  - it is the same character.\nMake the LEGENDARY rarity version:\n - luxurious golden armor with jeweled details,\n - powerful aura and radiance, sparks and light rays,\n - epic cinematic lighting,\n - gold + fire/energy as the main colors.\nOne character, same hero, no text, no watermark.`;
-if(step===4)return `Build a single-page hero card website (game hero card) in HTML, CSS and JavaScript.\nIMPORTANT: responsive, mobile-first  - it must look great on a phone. All on-page text is in ENGLISH.\n\n[HERO IMAGES]\nUse these image URLs as the hero art (embed each with <img src="URL">):\nCOMMON: ${v('common')}\nEPIC: ${v('epic')}\nLEGENDARY: ${v('legendary')}\nShow the hero large and centered on the card (fill the image area, object-fit: cover; keep the head and weapon visible).${IMAGE_RULES}${ENHANCE_RULES}Per rarity: Common = soft gray frame and calm dust particles; Epic = purple aura, magic particles and light rays; Legendary = gold holographic foil sweep, sparks and radiant glow. Element theme for particles: ${v('element')||'the hero element'}.\n\n[HERO DATA]\nName: ${v('name')}\nClass: ${v('class')}\nAbility: ${v('ability')}  - ${v('description')}\nStat bars (progress bars from 0 to 10)  - the values below are for COMMON rarity:\n  Strength: ${v('strength')||5}\n  Health: ${v('health')||5}\n  Speed: ${v('speed')||5}\nHigher rarity = higher stats: Epic = Common +2, Legendary = Common +3 (max 10).\nStudio slogan at the bottom: "${v('slogan')}"\n\n[3 RARITY BUTTONS]\nThree buttons on top: Common, Epic, Legendary.\nClicking a button changes EVERYTHING at once:\n  1) the hero image (to the matching one),\n  2) the card frame, the glow, AND the whole page background tint  - \n     Common = gray, Epic = purple, Legendary = gold (every rarity has a colored glow),\n  3) the rarity badge with the same name and color,\n  4) the stats  - animate each bar GROWING and the number counting up to the new rarity value.\nCommon is open by default; the active button is highlighted.\nOn phones the three buttons MUST fully fit the screen width: a full-width row of equal buttons that shrink their text size and padding on small screens.\n\n[STYLE]\nLarge hero, clean typography, rounded card centered on screen.\nNeon GLOW in the rarity color around the whole card for EVERY rarity; the glow gets brighter as the rarity increases.\nThe glow behind the hero should be SUBTLE  - about 30% smaller and softer, so it frames the hero without overpowering the art.\nThe PAGE BACKGROUND shifts to a dark tint of the current rarity color.\nFor Legendary add a sparkle/shimmer animation around the frame.\n${data.bonus?`\n[MAKE IT COOL  - extras]\n- A big POWER total = sum of the three stats, updates with rarity.\n- 3D holographic tilt: the card tilts following the mouse / touch (and the device gyroscope on phones), like a real trading card.\n- Legendary: a rainbow holographic foil sweep across the hero image.\n- Smooth flip/scale transition when switching rarity, plus an element icon next to the rarity badge.\n`:''}\n[IMPORTANT]\nDeploy the finished page and give a PUBLIC link that opens on a phone without signing in.`;return ''}
-function promptUI(){return `<div class="prompt"><div class="prompthead"><span>YOUR READY-TO-USE PROMPT</span><button id="copy" class="copy">Copy prompt</button></div><div id="issues" class="missing" role="status"></div><textarea id="promptText" aria-label="Generated prompt" readonly spellcheck="false"></textarea>${toolLaunch(step===4?'web':'image')}</div>`}
-function updatePrompt(){if(!$('promptText'))return;$('promptText').value=buildPrompt();const m=missing();$('issues').textContent=m.length?'Complete before copying: '+m.join(', '):'Ready to copy.';$('copy').disabled=!!m.length}
-function render(){ $('steps').innerHTML=steps.map((s,i)=>`<button class="${step===i?'active':''}" data-step="${i}" ${step===i?'aria-current="step"':''}><span class="number">${String(i+1).padStart(2,'0')}</span>${s}</button>`).join('');$('count').textContent=`STEP ${step+1} OF 5`;$('progress').style.width=`${(step+1)*20}%`;let html='';
-if(step===0)html=`<h2>Who is your hero?</h2><p class="sub">Choose the details that make your character yours. Every menu also lets you write your own choice. Use English in all text fields.</p><div class="grid">${field('name','text',true)}${menu('class')}${menu('weapon')}${menu('ability')}${menu('personality')}${menu('style')}${menu('color')}${menu('element')}</div><div class="note">Your choices become part of the prompt. The composition and quality instructions are already included.</div>`;
-if(step>0&&step<4){const titles=['','Create the Common hero','Time for an Epic upgrade','Go Legendary'];const desc=['','Copy this prompt into an image-generation chat. Generate your hero, then save the image.','Send this prompt in the SAME chat as the Common hero. Save the new image before continuing.','Stay in the SAME chat so the AI can keep your character consistent. Save the Legendary image.'];const guides=[[],[{src:'guides/l1-gemini-common.webp',caption:'Gemini: Common'}],[{src:'guides/l1-gemini-epic.webp',caption:'Gemini: Epic'}],[{src:'guides/l1-gemini-legendary.webp',caption:'Gemini: Legendary'},{src:'guides/l1-saved-files.webp',caption:'Save all three files'}]];html=`<h2>${titles[step]}</h2><p class="sub">${desc[step]}</p>${guideShots(guides[step])}<div class="note">${step===1?'Use image-generation mode. To change your character, return to step 1 and edit your choices.':'Keep the art style, identity and pose. Only the rarity should change.'}</div>${promptUI()}<label class="check"><input type="checkbox" data-key="saved${step}" ${data['saved'+step]?'checked':''}>I generated and saved my ${['','Common','Epic','Legendary'][step]} image.</label>`}
-if(step===4)html=`<h2>Give your hero a home.</h2><p class="sub">Add your three image links and card details. Copy the prompt into Qwen to build the card page.</p>${UPLOAD_HELP}${guideShots([{src:'guides/l1-imgbb-upload.webp',caption:'ImgBB upload'},{src:'guides/l1-qwen-code.webp',caption:'Qwen Web Dev'},{src:'guides/l1-qwen-deploy.webp',caption:'Deploy public link'}])}<div class="grid">${['common','epic','legendary'].map(k=>`<div class="wide">${field(k,'url')}</div>`).join('')}${menu('description')}${['strength','health','speed'].map(k=>`<label class="field" for="${k}">${labels[k]} <output id="out-${k}">${data[k]||5}</output><input type="range" id="${k}" data-key="${k}" min="1" max="10" value="${data[k]||5}"></label>`).join('')}${field('slogan','text',true)}</div><label class="check"><input type="checkbox" data-key="bonus" ${data.bonus?'checked':''}>Add optional effects and a total POWER score.</label>${promptUI()}<div class="note">After building: check all three rarity buttons, images and stats on your phone. Publish, then test the public link while signed out.</div>`;
-$('content').innerHTML=html;$('back').disabled=step===0;$('next').textContent=step===4?'Export project ↓':'Continue →';updatePrompt();if(step===4)['common','epic','legendary'].forEach(preview);}
-function preview(k){}
+function promptCommon(){const v=value;return `[1. SKELETON - DO NOT CHANGE]
+A single game hero, full body, dynamic pose, facing the camera.
+Character large and centered, clean solid-color background.
+Only ONE character, positive and friendly.
+No text, no letters, no logos, no watermark.
+Original design - do not copy heroes from existing games.
 
+[2. STYLE & THEME]
+Style: ${v('style')}
+Main color: ${v('color')}
+Element/theme: ${v('element')}
+
+[3. MY HERO]
+Name: ${v('name')}
+Class: ${v('class')}
+Weapon/tool: ${v('weapon')}
+Ability: ${v('ability')}
+Personality: ${v('personality')}
+
+[4. RARITY]
+This is the COMMON rarity version:
+simple clothes/armor, modest details, calm lighting.`}
+function promptEpic(){return `Take the SAME hero from the previous image.
+Keep the art STYLE, face, body, class, weapon and pose - it is the same character.
+Make the EPIC rarity version:
+- upgraded armor with a purple glow,
+- magical particles and energy around,
+- more dramatic lighting,
+- purple / violet color scheme.
+One character, same hero, no text, no watermark.`}
+function promptLegendary(){return `Take the SAME hero from the previous images.
+Keep the art STYLE, face, body, class, weapon and pose - it is the same character.
+Make the LEGENDARY rarity version:
+- luxurious golden armor with jeweled details,
+- powerful aura and radiance, sparks and light rays,
+- epic cinematic lighting,
+- gold + fire/energy as the main colors.
+One character, same hero, no text, no watermark.`}
+function promptCard(){const v=value;return `Build a single-page hero card website (game hero card) in HTML, CSS and JavaScript.
+IMPORTANT: responsive, mobile-first - it must look great on a phone. All on-page text is in ENGLISH.
+
+[HERO IMAGES]
+Use these image URLs as the hero art (embed each with <img src="URL">):
+COMMON: ${v('common')}
+EPIC: ${v('epic')}
+LEGENDARY: ${v('legendary')}
+Show the hero large and centered on the card (fill the image area, object-fit: cover; keep the head and weapon visible).${IMAGE_RULES}${ENHANCE_RULES}Per rarity: Common = soft gray frame and calm dust particles; Epic = purple aura, magic particles and light rays; Legendary = gold holographic foil sweep, sparks and radiant glow. Element theme for particles: ${v('element')||'the hero element'}.
+
+[HERO DATA]
+Name: ${v('name')}
+Class: ${v('class')}
+Ability: ${v('ability')} - ${v('description')}
+Stat bars (progress bars from 0 to 10) - the values below are for COMMON rarity:
+  Strength: ${v('strength')||5}
+  Health: ${v('health')||5}
+  Speed: ${v('speed')||5}
+Higher rarity = higher stats: Epic = Common +2, Legendary = Common +3 (max 10).
+Studio slogan at the bottom: "${v('slogan')}"
+
+[3 RARITY BUTTONS]
+Three buttons on top: Common, Epic, Legendary.
+Clicking a button changes EVERYTHING at once:
+  1) the hero image (to the matching one),
+  2) the card frame, the glow, AND the whole page background tint -
+     Common = gray, Epic = purple, Legendary = gold (every rarity has a colored glow),
+  3) the rarity badge with the same name and color,
+  4) the stats - animate each bar GROWING and the number counting up to the new rarity value.
+Common is open by default; the active button is highlighted.
+On phones the three buttons MUST fully fit the screen width: a full-width row of equal buttons that shrink their text size and padding on small screens.
+
+[STYLE]
+Large hero, clean typography, rounded card centered on screen.
+Neon GLOW in the rarity color around the whole card for EVERY rarity; the glow gets brighter as the rarity increases.
+The glow behind the hero should be SUBTLE - about 30% smaller and softer, so it frames the hero without overpowering the art.
+The PAGE BACKGROUND shifts to a dark tint of the current rarity color.
+For Legendary add a sparkle/shimmer animation around the frame.
+${data.bonus?`
+[MAKE IT COOL - extras]
+- A big POWER total = sum of the three stats, updates with rarity.
+- 3D holographic tilt: the card tilts following the mouse / touch (and the device gyroscope on phones), like a real trading card.
+- Legendary: a rainbow holographic foil sweep across the hero image.
+- Smooth flip/scale transition when switching rarity, plus an element icon next to the rarity badge.
+`:''}
+[IMPORTANT]
+Deploy the finished page and give a PUBLIC link that opens on a phone without signing in.`}
+
+function multiPrompt(items,tool){
+  return items.map((it,i)=>`<div class="prompt"><div class="prompthead"><span>${esc(it.label)}</span><button class="copy" data-copy="${i}">Copy prompt</button></div><textarea id="promptText${i}" aria-label="${esc(it.label)}" readonly rows="8" spellcheck="false">${esc(it.text)}</textarea></div>`).join('')+toolLaunch(tool)
+}
+function singlePrompt(text,tool){
+  return `<div class="prompt"><div class="prompthead"><span>YOUR READY-TO-USE PROMPT</span><button id="copy" class="copy">Copy prompt</button></div><div id="issues" class="missing" role="status"></div><textarea id="promptText" aria-label="Generated prompt" readonly spellcheck="false"></textarea>${toolLaunch(tool)}</div>`
+}
+function updatePrompt(){
+  if(step===1){
+    const miss=designMissing();
+    ['promptText0','promptText1','promptText2'].forEach((id,i)=>{
+      const el=$(id); if(!el)return;
+      el.value=[promptCommon,promptEpic,promptLegendary][i]();
+    });
+    document.querySelectorAll('[data-copy]').forEach(btn=>btn.disabled=!!miss.length);
+    return;
+  }
+  if(!$('promptText'))return;
+  $('promptText').value=promptCard();
+  const m=cardMissing();
+  $('issues').textContent=m.length?'Complete before copying: '+m.join(', '):'Ready to copy.';
+  $('copy').disabled=!!m.length;
+}
+function render(){
+  $('steps').innerHTML=steps.map((s,i)=>`<button class="${step===i?'active':''}" data-step="${i}" ${step===i?'aria-current="step"':''}><span class="number">${String(i+1).padStart(2,'0')}</span>${s}</button>`).join('');
+  $('count').textContent=`STEP ${step+1} OF 3`;
+  $('progress').style.width=`${(step+1)*(100/3)}%`;
+  let html='';
+  if(step===0)html=`<h2>Who is your hero?</h2><p class="sub">Choose the details that make your character yours. Every menu also lets you write your own choice. Use English in all text fields.</p><div class="grid">${field('name','text',true)}${menu('class')}${menu('weapon')}${menu('ability')}${menu('personality')}${menu('style')}${menu('color')}${menu('element')}</div><div class="note">Your art style will carry into Lessons 2-4 automatically.</div>`;
+  if(step===1){
+    const miss=designMissing();
+    html=`<h2>Make your hero images</h2><p class="sub">Stay in ONE Gemini chat. Copy each prompt in order: Common, then Epic, then Legendary. Save all three images.</p>
+    ${guideShots([{src:'guides/l1-gemini-common.webp',caption:'1. Common'},{src:'guides/l1-gemini-epic.webp',caption:'2. Epic'},{src:'guides/l1-gemini-legendary.webp',caption:'3. Legendary'},{src:'guides/l1-saved-files.webp',caption:'Save all three'}])}
+    ${miss.length?`<p class="missing" role="status">Complete on step 1 before copying: ${miss.join(', ')}</p>`:''}
+    ${multiPrompt([{label:'PROMPT 1 - COMMON',text:promptCommon()},{label:'PROMPT 2 - EPIC (same chat)',text:promptEpic()},{label:'PROMPT 3 - LEGENDARY (same chat)',text:promptLegendary()}],'image')}
+    <label class="check"><input type="checkbox" data-key="saved1" ${data.saved1?'checked':''}>I saved my Common, Epic and Legendary images.</label>`;
+  }
+  if(step===2)html=`<h2>Give your hero a home.</h2><p class="sub">Add your three image links and card details. Copy the prompt into Qwen to build the card page.</p>${UPLOAD_HELP}${guideShots([{src:'guides/l1-imgbb-upload.webp',caption:'ImgBB upload'},{src:'guides/l1-qwen-code.webp',caption:'Qwen Web Dev'},{src:'guides/l1-qwen-deploy.webp',caption:'Deploy public link'}])}<div class="grid">${['common','epic','legendary'].map(k=>`<div class="wide">${field(k,'url')}</div>`).join('')}${menu('description')}${['strength','health','speed'].map(k=>`<label class="field" for="${k}">${labels[k]} <output id="out-${k}">${data[k]||5}</output><input type="range" id="${k}" data-key="${k}" min="1" max="10" value="${data[k]||5}"></label>`).join('')}${field('slogan','text',true)}</div><label class="check"><input type="checkbox" data-key="bonus" ${data.bonus?'checked':''}>Add optional effects and a total POWER score.</label>${singlePrompt('', 'web')}<div class="note">After building: check all three rarity buttons on your phone, publish, then test the public link while signed out.</div>`;
+  $('content').innerHTML=html;
+  $('back').disabled=step===0;
+  $('next').textContent=step===2?'Export project ↓':'Continue →';
+  updatePrompt();
+}
 function go(n){step=n;save();render()}
 function exportProject(){const blob=new Blob([JSON.stringify({version:2,data,step,course:JSON.parse(localStorage.getItem('hero-lab-course-v1')||'null')},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ai-game-studio-project.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Project exported')}
 $('steps').addEventListener('click',e=>{const b=e.target.closest('[data-step]');if(b)go(Number(b.dataset.step))});
-$('content').addEventListener('input',e=>{const k=e.target.dataset.key;if(!k)return;data[k]=e.target.type==='checkbox'?e.target.checked:e.target.value;if(e.target.tagName==='SELECT'){const custom=e.target.parentElement.querySelector('.custom');if(custom)custom.hidden=e.target.value!=='__custom'}if($('out-'+k))$('out-'+k).textContent=e.target.value;if(IMAGE_KEYS.has(k)){clearTimeout(preview.t);preview.t=setTimeout(()=>preview(k),400)}save();updatePrompt()});
-$('content').addEventListener('change',e=>{if(IMAGE_KEYS.has(e.target.dataset.key)){const k=e.target.dataset.key;data[k]=cleanImageURL(data[k]);e.target.value=data[k];save();preview(k);updatePrompt()}});
-$('content').addEventListener('click',async e=>{if(e.target.id!=='copy')return;updatePrompt();if($('copy').disabled)return;await copyWithFeedback(e.target,$('promptText'),toast)});
-$('back').onclick=()=>go(Math.max(0,step-1));$('next').onclick=()=>{if(step===4){exportProject();return}const miss=step===0?['name','style','color','element','class','weapon','ability','personality'].filter(k=>!value(k)).map(k=>labels[k]):missing();if(miss.length&&!confirm('You still need: '+miss.join(', ')+'.\nContinue anyway?'))return;go(step+1)};$('export').onclick=exportProject;
+$('content').addEventListener('input',e=>{const k=e.target.dataset.key;if(!k)return;data[k]=e.target.type==='checkbox'?e.target.checked:e.target.value;if(e.target.tagName==='SELECT'){const custom=e.target.parentElement.querySelector('.custom');if(custom)custom.hidden=e.target.value!=='__custom'}if($('out-'+k))$('out-'+k).textContent=e.target.value;save();updatePrompt()});
+$('content').addEventListener('change',e=>{if(IMAGE_KEYS.has(e.target.dataset.key)){const k=e.target.dataset.key;data[k]=cleanImageURL(data[k]);e.target.value=data[k];save();updatePrompt()}});
+$('content').addEventListener('click',async e=>{
+  const btn=e.target.closest('[data-copy],#copy');
+  if(!btn)return;
+  if(btn.id==='copy'){updatePrompt();if(btn.disabled)return;await copyWithFeedback(btn,$('promptText'),toast);return}
+  const i=Number(btn.dataset.copy);const ta=$('promptText'+i);if(!ta||btn.disabled)return;await copyWithFeedback(btn,ta,toast);
+});
+$('back').onclick=()=>go(Math.max(0,step-1));
+$('next').onclick=()=>{if(step===2){exportProject();return}const miss=step===0?designMissing():designMissing();if(miss.length&&!confirm('You still need: '+miss.join(', ')+'.\nContinue anyway?'))return;go(step+1)};
+$('export').onclick=exportProject;
 $('importButton').onclick=()=>$('import').click();
-$('import').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>300000)throw Error();const p=JSON.parse(await f.text());if(![1,2].includes(p.version)||!p.data||typeof p.data!=='object'||Array.isArray(p.data))throw Error();const allowed=new Set([...Object.keys(labels),...Object.keys(menus).map(k=>k+'_custom'),'saved1','saved2','saved3','bonus']);const clean={};for(const [k,v] of Object.entries(p.data)){if(allowed.has(k)&&(typeof v==='string'||typeof v==='boolean'||typeof v==='number')){if(['strength','health','speed'].includes(k)){const n=Number(v);if(!Number.isInteger(n)||n<1||n>10)throw Error();clean[k]=n}else clean[k]=typeof v==='string'?v.slice(0,2000):v}}if(Object.keys(data).length&&!confirm('Replace your current project with this imported project?'))return;if(p.version===2&&p.course&&typeof p.course.values==='object'&&typeof p.course.steps==='object'&&typeof p.course.checks==='object')localStorage.setItem('hero-lab-course-v1',JSON.stringify(p.course));data=clean;step=Math.max(0,Math.min(4,Number(p.step)||0));save();render();toast('Project imported')}catch{toast('This is not a valid Hero Lab project file')}finally{e.target.value=''}};
+$('import').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>300000)throw Error();const p=JSON.parse(await f.text());if(![1,2].includes(p.version)||!p.data||typeof p.data!=='object'||Array.isArray(p.data))throw Error();const allowed=new Set([...Object.keys(labels),...Object.keys(menus).map(k=>k+'_custom'),'saved1','saved2','saved3','bonus']);const clean={};for(const [k,v] of Object.entries(p.data)){if(allowed.has(k)&&(typeof v==='string'||typeof v==='boolean'||typeof v==='number')){if(['strength','health','speed'].includes(k)){const n=Number(v);if(!Number.isInteger(n)||n<1||n>10)throw Error();clean[k]=n}else clean[k]=typeof v==='string'?v.slice(0,2000):v}}if(Object.keys(data).length&&!confirm('Replace your current project with this imported project?'))return;if(p.version===2&&p.course&&typeof p.course.values==='object'&&typeof p.course.steps==='object'&&typeof p.course.checks==='object')localStorage.setItem('hero-lab-course-v1',JSON.stringify(p.course));data=clean;const raw=Math.max(0,Number(p.step)||0);step=raw<=0?0:raw<=3?1:2;save();render();toast('Project imported')}catch{toast('This is not a valid Hero Lab project file')}finally{e.target.value=''}};
 render();

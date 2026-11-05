@@ -50,3 +50,15 @@ JavaScript syntax and automated regression checks passed: copying is not blocked
 ## Branch notes (v2-simplify)
 
 Guide screenshots live in `guides/` (hover or tap to enlarge). Image URL fields accept any paste (viewer link, direct link, or HTML embed) with silent cleanup and no under-field warnings. Qwen web prompts tell the model to extract messy ImgBB links and keep building if an image fails. Lesson 4 release copy fields are plain text. Lesson 3 Fix needs only one bug pair. Full step merging is planned for a later pass.
+
+## Branch notes (v2-simplify)
+
+Guide screenshots live in `guides/` (hover or tap to enlarge). Image URL fields accept any paste (viewer link, direct link, or HTML embed) with silent cleanup and no under-field warnings. Qwen web prompts tell the model to extract messy ImgBB links and keep building if an image fails.
+
+### Merged steps (current)
+- Lesson 1 (3): Design hero → Make hero images (Common/Epic/Legendary) → Build hero card
+- Lesson 2 (5): Design rival → Make boss art (3 prompts) → Animate → Lore + intro → Bonus poster
+- Lesson 3 (5): Define fight → Prepare arena (required) → Build game → Playtest/optional fixes → Publish
+- Lesson 4 (5): Release brief → Cover + trailer → Release page (one paste box) → Trailer QA → Pitch
+
+Art style from Lesson 1 always syncs into Lessons 2-4. Bug hunting in Lesson 3 is fully optional. Vidu opens https://www.vidu.com.
