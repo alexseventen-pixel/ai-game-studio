@@ -45,3 +45,8 @@ Enable Thinking and Web Dev in Qwen when those modes are available.
 ## Verification
 
 JavaScript syntax and automated regression checks passed: copying is not blocked by unreachable image URLs or viewing-page warnings; no image probes run; URL signatures are preserved; copy success and fallback provide button feedback; 18 course prompts and the shared hero data still work. The resulting Qwen-generated pages and their visual appearance require testing in Qwen.
+
+
+## Branch notes (v2-simplify)
+
+Guide screenshots live in `guides/` (hover or tap to enlarge). Image URL fields accept any paste (viewer link, direct link, or HTML embed) with silent cleanup and no under-field warnings. Qwen web prompts tell the model to extract messy ImgBB links and keep building if an image fails. Lesson 4 release copy fields are plain text. Lesson 3 Fix needs only one bug pair. Full step merging is planned for a later pass.
