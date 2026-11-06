@@ -62,3 +62,10 @@ Guide screenshots live in `guides/` (hover or tap to enlarge). Image URL fields 
 - Lesson 4 (5): Release brief → Cover + trailer → Release page (one paste box) → Trailer QA → Pitch
 
 Art style from Lesson 1 always syncs into Lessons 2-4. Bug hunting in Lesson 3 is fully optional. Vidu opens https://www.vidu.com. Lesson 4 premiere uses Canva (Gemini Canvas backup) for a screenshot pitch deck.
+
+
+## Lesson 4 work drop
+
+The last step of Lesson 4 includes a private box: Send your work to Mr. Oleg. Students pick a class, a nickname (not a real full name) and files. Images are checked in the browser before upload. Files go to a private Supabase folder. Students can insert files only; they cannot list, open, change or delete them.
+
+Teachers review files at teacher.html after a magic-link sign-in, or in the Supabase dashboard under Storage > l4-submissions and Table Editor > submissions. Add the teacher.html URL to Supabase Authentication redirect URLs if the sign-in link does not return to this site.

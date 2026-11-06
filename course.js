@@ -224,6 +224,7 @@ function render(){
   update();
   const rt=$('releaseText');
   if(rt&&!rt.value){rt.placeholder=RELEASE_PLACEHOLDER}
+  if(typeof window.mountWorkDrop==='function')window.mountWorkDrop({lesson,step,isLast:step===config.steps.length-1,root:$('content')});
 }
 function go(n){step=n;persist();render()}
 function download(){let heroProject={};try{heroProject=JSON.parse(localStorage.getItem('hero-lab-v1')||'{}')}catch{};const b=new Blob([JSON.stringify({version:2,data:heroProject.data||{},step:heroProject.step||0,course:project},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ai-game-studio-project.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);notify('Project exported - includes all four lessons')}

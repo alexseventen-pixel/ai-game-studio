@@ -34,3 +34,24 @@ button:active:not(:disabled){transform:translateY(2px) scale(.97)}button.copied{
 
 .after-task{border-style:solid;border-color:#e0e8d1}
 .expect{display:none}
+
+
+.work-drop{margin:28px 0 8px;padding:20px 20px 18px;border:1px solid #e0e8d1;border-radius:14px;background:#f7faf0}
+.work-drop h3{margin:0 0 8px;font-size:20px;letter-spacing:-0.4px}
+.work-drop .drop-lead{margin:0 0 16px;font-size:13px;line-height:1.6;color:#53633c}
+.drop-status{margin:12px 0 0;font-size:13px;line-height:1.5}
+.drop-status.ok{color:#3b5c24}
+.drop-status.bad{color:#8a3b1d}
+.drop-status.busy{color:#53633c}
+.file-hint{margin:6px 0 0;font-size:11px;color:#6a7263;font-weight:500;line-height:1.5}
+.teacher-page .teacher-main{display:block;max-width:920px;padding-top:36px}
+.teacher-page h1{font-size:36px;margin:10px 0 8px}
+.teacher-signin{max-width:420px}
+.teacher-toolbar{display:flex;gap:10px;margin:8px 0 18px}
+.teacher-card{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid #e5e8df}
+.teacher-thumb{width:120px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #dce0d3;background:#f7f8f2}
+.teacher-meta{margin:0 0 6px;font-size:14px}
+.teacher-actions{display:flex;gap:12px;margin:10px 0 0}
+.teacher-actions .btn-link{color:#3b5c24;font-size:13px;font-weight:650}
+.flag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#f3d9cf;color:#8a3b1d;font-size:10px;font-weight:700}
+@media(max-width:600px){.teacher-card{grid-template-columns:1fr}}

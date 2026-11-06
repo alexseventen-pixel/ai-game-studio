@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Private teacher inbox for Lesson 4 student files.">
+  <title>Teacher inbox · AI Game Studio</title>
+  <link rel="stylesheet" href="style.css?v=13">
+</head>
+<body class="teacher-page">
+  <header>
+    <a class="brand" href="./"><span class="mark">✳</span> HERO LAB <small>AI GAME STUDIO</small></a>
+    <div class="tools"><span id="who">Teacher inbox</span></div>
+  </header>
+  <main class="teacher-main">
+    <section class="workspace">
+      <div class="topline"><span>PRIVATE INBOX</span><span>Lesson 4 files</span></div>
+      <h1>Student work</h1>
+      <p class="sub">Files stay in a private folder. Students can upload but cannot list or download anything here.</p>
+
+      <div data-panel="signin">
+        <form id="signInForm" class="grid teacher-signin">
+          <div class="field wide">
+            <label for="teacherEmail">Teacher email</label>
+            <input id="teacherEmail" type="email" autocomplete="username" required>
+          </div>
+          <div class="field wide">
+            <button type="submit" class="primary" id="sendLink">Send magic link</button>
+          </div>
+        </form>
+        <p class="drop-status" id="authMsg" role="status"></p>
+        <p class="file-hint">Only the teacher account can open this inbox. If the link does not return you here, add this page URL to Supabase Authentication redirect URLs. You can also browse files in the Supabase dashboard: Storage, then l4-submissions, and Table Editor, then submissions.</p>
+      </div>
+
+      <div data-panel="inbox" hidden>
+        <div class="teacher-toolbar">
+          <button type="button" id="reload">Refresh</button>
+          <button type="button" id="signOut">Sign out</button>
+        </div>
+        <p class="file-hint" id="emptyList" hidden>No files yet.</p>
+        <div id="fileList"></div>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.84.0/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js?v=13"></script>
+  <script src="teacher.js?v=13"></script>
+</body>
+</html>
