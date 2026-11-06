@@ -10,9 +10,11 @@ const DROP_MIME={
   'image/webp':['webp'],
   'image/gif':['gif'],
   'application/pdf':['pdf'],
-  'video/mp4':['mp4']
+  'video/mp4':['mp4'],
+  'application/msword':['doc'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document':['docx']
 };
-const DROP_ACCEPT=Object.keys(DROP_MIME).join(',')+',.png,.jpg,.jpeg,.webp,.gif,.pdf,.mp4';
+const DROP_ACCEPT=Object.keys(DROP_MIME).join(',')+',.png,.jpg,.jpeg,.webp,.gif,.pdf,.mp4,.doc,.docx';
 const NSFW_LIMITS={Porn:0.5,Hentai:0.5,Sexy:0.75};
 const TF_SRC='https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js';
 const NSFW_SRC='https://cdn.jsdelivr.net/npm/nsfwjs@2.4.2/dist/nsfwjs.min.js';
@@ -107,7 +109,7 @@ function setStatus(el,kind,text){
 async function scanFile(file,mime){
   if(file.size<=0)return 'This file is empty.';
   if(file.size>DROP_MAX_BYTES)return file.name+' is over 50 MB.';
-  if(!mime)return file.name+' must be PNG, JPEG, WebP, GIF, PDF or MP4.';
+  if(!mime)return file.name+' must be PNG, JPEG, WebP, GIF, PDF, DOC/DOCX or MP4.';
   if(!mime.startsWith('image/'))return '';
   try{
     const img=await fileToImage(file);
@@ -166,7 +168,7 @@ function dropHTML(){
   const classOpts=DROP_CLASSES.map(c=>`<option value="${c}" ${saved.class===c?'selected':''}>${c}</option>`).join('');
   return `<section class="work-drop" id="workDrop" aria-labelledby="workDropTitle">
     <h3 id="workDropTitle">Send your work to Mr. Oleg</h3>
-    <p class="drop-lead">Upload screenshots, your pitch deck (PDF) or a short trailer. Images are checked before upload. Files go to a private folder that only Mr. Oleg can see. Use a nickname, not your real full name.</p>
+    <p class="drop-lead">Upload screenshots, your pitch deck (PDF or Word) or a short trailer. Images are checked before upload. Files go to a private folder that only Mr. Oleg can see. Use a nickname, not your real full name.</p>
     <form id="workDropForm" class="grid">
       <div class="field"><label for="dropClass">Class</label>
         <select id="dropClass" required><option value="">Choose your class</option>${classOpts}</select>
@@ -176,7 +178,7 @@ function dropHTML(){
       </div>
       <div class="field wide"><label for="dropFiles">Your files</label>
         <input id="dropFiles" type="file" multiple accept="${DROP_ACCEPT}">
-        <p class="file-hint">PNG, JPEG, WebP, GIF, PDF or MP4. Up to 50 MB each, 8 files at a time.</p>
+        <p class="file-hint">PNG, JPEG, WebP, GIF, PDF, DOC/DOCX or MP4. Up to 50 MB each, 8 files at a time.</p>
       </div>
       <div class="field wide"><button type="submit" class="primary" id="dropSend">Send files</button></div>
     </form>
